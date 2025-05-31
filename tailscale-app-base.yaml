@@ -1,0 +1,6 @@
+services:
+  tailscale-app-base:
+    depends_on:
+      tailscale:
+        condition: service_healthy
+    network_mode: service:tailscale

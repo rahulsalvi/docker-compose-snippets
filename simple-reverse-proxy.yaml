@@ -1,0 +1,6 @@
+configs:
+  Caddyfile:
+    content: |
+      ${COMPOSE_PROJECT_NAME}.ipn.rahulsalvi.com {
+        reverse_proxy localhost:${SERVICE_PORT:-8080}
+      }

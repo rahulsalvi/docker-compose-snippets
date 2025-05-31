@@ -7,13 +7,15 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
+    configs:
+      - source: Caddyfile
+        target: /etc/caddy/Caddyfile
     cap_add:
       - NET_ADMIN
-    depends_on:
-      tailscale:
-        condition: service_healthy
-    network_mode: service:tailscale
     restart: unless-stopped
+    extends:
+      file: tailscale-app-base.yaml
+      service: tailscale-app-base
 
 volumes:
   caddy_data:
