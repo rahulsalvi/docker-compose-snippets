@@ -8,6 +8,9 @@ services:
       - TS_USERSPACE=false
       - TS_ACCEPT_DNS=true
       - TS_AUTH_ONCE=true
+    networks:
+      - default
+      - tailscale-internal
     volumes:
       - ts_state:/var/lib/tailscale
     devices:
@@ -29,3 +32,11 @@ volumes:
 networks:
   default:
     enable_ipv6: true
+  # use a separate bridge network to allow direct access between tailscale
+  # containers on the same host. without this, connections will use relays.
+  # create the network ahead of time with:
+  # docker network create --internal --ipv6 tailscale-internal
+  tailscale-internal:
+    # external because it's managed outside of this compose file
+    external: true
+    name: tailscale-internal
