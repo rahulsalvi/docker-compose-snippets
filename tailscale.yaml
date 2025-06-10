@@ -7,6 +7,7 @@ services:
       - TS_HOSTNAME=${COMPOSE_PROJECT_NAME}
       - TS_USERSPACE=false
       - TS_ACCEPT_DNS=true
+      - TS_AUTH_ONCE=true
     volumes:
       - ts_state:/var/lib/tailscale
     devices:
