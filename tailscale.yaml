@@ -29,6 +29,10 @@ services:
 volumes:
   ts_state:
 
+secrets:
+  ts_authkey:
+    file: ../../secrets/ts_authkey
+
 networks:
   default:
     enable_ipv6: true
