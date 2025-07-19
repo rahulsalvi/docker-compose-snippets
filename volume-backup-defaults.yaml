@@ -1,0 +1,30 @@
+configs:
+  # run a backup at 2AM every day
+  # store for one week in S3 Standard
+  daily_backup:
+    content: |
+      BACKUP_FILENAME="daily-backup-%Y-%m-%dT%H-%M-%S.{{ .Extension }}"
+      BACKUP_CRON_EXPRESSION="0 2 * * *"
+      BACKUP_PRUNING_PREFIX="daily-backup-"
+      BACKUP_RETENTION_DAYS="7"
+      AWS_STORAGE_CLASS="STANDARD"
+
+  # run a backup at 3AM every Monday
+  # store for one month in S3 One Zone-IA
+  weekly_backup:
+    content: |
+      BACKUP_FILENAME="weekly-backup-%Y-%m-%dT%H-%M-%S.{{ .Extension }}"
+      BACKUP_CRON_EXPRESSION="0 3 * * 1"
+      BACKUP_PRUNING_PREFIX="weekly-backup-"
+      BACKUP_RETENTION_DAYS="31"
+      AWS_STORAGE_CLASS="ONEZONE_IA"
+
+  # run a backup at 4AM the first day of every month
+  # store for one year in S3 Glacier Deep Archive
+  monthly_backup:
+    content: |
+      BACKUP_FILENAME="monthly-backup-%Y-%m-%dT%H-%M-%S.{{ .Extension }}"
+      BACKUP_CRON_EXPRESSION="0 4 1 * *"
+      BACKUP_PRUNING_PREFIX="monthly-backup-"
+      BACKUP_RETENTION_DAYS="365"
+      AWS_STORAGE_CLASS="DEEP_ARCHIVE"
