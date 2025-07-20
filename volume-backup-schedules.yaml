@@ -1,3 +1,4 @@
+# include the secrets configuration as a convenience
 include:
   - volume-backup-secrets.yaml
 
@@ -22,6 +23,16 @@ configs:
       BACKUP_RETENTION_DAYS="31"
       AWS_STORAGE_CLASS="ONEZONE_IA"
 
+  # run a backup at 3AM every 15 days starting from the beginning of the month
+  # store for one month in S3 One Zone-IA
+  biweekly_backup:
+    content: |
+      BACKUP_FILENAME="${COMPOSE_PROJECT_NAME}-weekly-backup-%Y-%m-%dT%H-%M-%S.{{ .Extension }}"
+      BACKUP_CRON_EXPRESSION="0 3 1,16 * *"
+      BACKUP_PRUNING_PREFIX="${COMPOSE_PROJECT_NAME}-weekly-backup-"
+      BACKUP_RETENTION_DAYS="31"
+      AWS_STORAGE_CLASS="ONEZONE_IA"
+
   # run a backup at 4AM the first day of every month
   # store for one year in S3 Glacier Deep Archive
   monthly_backup:
@@ -30,4 +41,14 @@ configs:
       BACKUP_CRON_EXPRESSION="0 4 1 * *"
       BACKUP_PRUNING_PREFIX="${COMPOSE_PROJECT_NAME}-monthly-backup-"
       BACKUP_RETENTION_DAYS="365"
+      AWS_STORAGE_CLASS="DEEP_ARCHIVE"
+
+  # run a backup at 4AM the first day of every month
+  # store for 6 months in S3 Glacier Deep Archive
+  monthly_backup_shortterm:
+    content: |
+      BACKUP_FILENAME="${COMPOSE_PROJECT_NAME}-monthly-backup-%Y-%m-%dT%H-%M-%S.{{ .Extension }}"
+      BACKUP_CRON_EXPRESSION="0 4 1 * *"
+      BACKUP_PRUNING_PREFIX="${COMPOSE_PROJECT_NAME}-monthly-backup-"
+      BACKUP_RETENTION_DAYS="181"
       AWS_STORAGE_CLASS="DEEP_ARCHIVE"

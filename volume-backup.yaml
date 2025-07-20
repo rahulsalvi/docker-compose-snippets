@@ -18,13 +18,23 @@ services:
       - age_passphrase
     restart: unless-stopped
 
-  aws-backup-default:
+  aws-backup-frequent:
     configs:
       - source: daily_backup
         target: /etc/dockervolumebackup/conf.d/10-daily.conf
       - source: weekly_backup
         target: /etc/dockervolumebackup/conf.d/20-weekly.conf
       - source: monthly_backup
+        target: /etc/dockervolumebackup/conf.d/30-monthly.conf
+    extends:
+      file: volume-backup.yaml
+      service: aws-backup
+
+  aws-backup-infrequent:
+    configs:
+      - source: biweekly_backup
+        target: /etc/dockervolumebackup/conf.d/25-biweekly.conf
+      - source: monthly_backup_shortterm
         target: /etc/dockervolumebackup/conf.d/30-monthly.conf
     extends:
       file: volume-backup.yaml
