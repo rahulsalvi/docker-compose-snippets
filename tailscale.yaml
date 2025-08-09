@@ -2,7 +2,7 @@ services:
   tailscale:
     image: tailscale/tailscale:latest
     environment:
-      - TS_AUTHKEY=file:/run/secrets/ts_authkey
+      - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_HOSTNAME=${COMPOSE_PROJECT_NAME}
       - TS_USERSPACE=false
@@ -17,8 +17,6 @@ services:
       - /dev/net/tun:/dev/net/tun
     cap_add:
       - NET_ADMIN
-    secrets:
-      - ts_authkey
     healthcheck:
       test: ["CMD-SHELL", "tailscale status"]
       interval: 10s
@@ -28,10 +26,6 @@ services:
 
 volumes:
   ts_state:
-
-secrets:
-  ts_authkey:
-    file: ../../secrets/ts_authkey
 
 networks:
   default:
