@@ -3,19 +3,14 @@ services:
     image: offen/docker-volume-backup:latest
     environment:
       BACKUP_COMPRESSION: zst
-      AWS_S3_BUCKET_NAME_FILE: /run/secrets/aws_s3_bucket_name
       AWS_S3_PATH: ${COMPOSE_PROJECT_NAME}
-      AWS_ACCESS_KEY_ID_FILE: /run/secrets/aws_access_key_id
-      AWS_SECRET_ACCESS_KEY_FILE: /run/secrets/aws_secret_access_key
-      AGE_PASSPHRASE_FILE: /run/secrets/age_passphrase
+      AWS_S3_BUCKET_NAME: ${BACKUP_AWS_BUCKET_NAME}
+      AWS_ACCESS_KEY_ID: ${BACKUP_AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${BACKUP_AWS_SECRET_ACCESS_KEY}
+      AGE_PASSPHRASE: ${BACKUP_AGE_PASSPHRASE}
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-    secrets:
-      - aws_s3_bucket_name
-      - aws_access_key_id
-      - aws_secret_access_key
-      - age_passphrase
     restart: unless-stopped
 
   aws-backup-frequent:

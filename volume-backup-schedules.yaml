@@ -1,7 +1,3 @@
-# include the secrets configuration as a convenience
-include:
-  - volume-backup-secrets.yaml
-
 configs:
   # run a backup at 2AM every day
   # store for one week in S3 Standard
