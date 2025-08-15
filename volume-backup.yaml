@@ -1,6 +1,6 @@
 services:
   aws-backup:
-    image: offen/docker-volume-backup:latest
+    image: ghcr.io/rahulsalvi/docker-volume-backup:latest
     environment:
       BACKUP_COMPRESSION: zst
       AWS_S3_PATH: ${COMPOSE_PROJECT_NAME}
@@ -8,10 +8,15 @@ services:
       AWS_ACCESS_KEY_ID: ${BACKUP_AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${BACKUP_AWS_SECRET_ACCESS_KEY}
       AGE_PASSPHRASE: ${BACKUP_AGE_PASSPHRASE}
+      NOTIFICATION_URLS: ntfy://ntfy.ipn.rahulsalvi.com/backups
+      NOTIFICATION_LEVEL: info
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
+    extends:
+      file: tailscale-app-base.yaml
+      service: tailscale-app-base
 
   aws-backup-frequent:
     configs:
