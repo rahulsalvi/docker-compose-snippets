@@ -9,7 +9,6 @@ services:
       AWS_SECRET_ACCESS_KEY: ${BACKUP_AWS_SECRET_ACCESS_KEY}
       AGE_PASSPHRASE: ${BACKUP_AGE_PASSPHRASE}
       NOTIFICATION_URLS: ntfy://ntfy.ipn.rahulsalvi.com/backups
-      NOTIFICATION_LEVEL: info
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
